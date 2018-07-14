@@ -2,10 +2,16 @@ package com.lss233.phoenix.nukkit.utils.nukkit;
 
 import cn.nukkit.entity.EntityHuman;
 import com.lss233.phoenix.entity.Entity;
-import com.lss233.phoenix.entity.EntityTypes;
+import com.lss233.phoenix.entity.EntityType;
 import com.lss233.phoenix.entity.living.Player;
+import com.lss233.phoenix.item.inventory.CarriedInventory;
+import com.lss233.phoenix.item.inventory.Carrier;
+import com.lss233.phoenix.item.inventory.Inventory;
+import com.lss233.phoenix.item.inventory.ItemStack;
+import com.lss233.phoenix.item.inventory.equipment.EquipmentType;
 import com.lss233.phoenix.module.Module;
-import com.lss233.phoenix.nukkit.NukkitMain;
+
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -28,8 +34,23 @@ public interface PlayerTransform {
         return new Player() {
 
             @Override
-            public EntityTypes getType() {
-                return EntityTypes.PLAYER;
+            public CarriedInventory<? extends Carrier> getInventory() {
+                return null;
+            }
+
+            @Override
+            public boolean equip(EquipmentType equipmentType, @Nullable ItemStack itemStack) {
+                return false;
+            }
+
+            @Override
+            public Optional<ItemStack> getEquipped(EquipmentType equipmentType) {
+                return Optional.empty();
+            }
+
+            @Override
+            public EntityType getType() {
+                return EntityType.PLAYER;
             }
 
             @Override
@@ -141,6 +162,28 @@ public interface PlayerTransform {
 
             public String getName() {
                 return player.getName();
+            }
+
+            @Override
+            public void kick() {
+                player.kick();
+            }
+
+            @Override
+            public Optional<Inventory> openInventory(Inventory inventory) {
+                return Optional.empty(); // TODO Implements later.
+            }
+
+            @Override
+            public Optional<Inventory> getOpenInventory() {
+
+                return Optional.empty();
+            }
+
+            @Override
+            public boolean closeInventory() {
+                player.getCursorInventory().close(player);
+                return true;
             }
 
             @Override

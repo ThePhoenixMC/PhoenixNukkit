@@ -1,0 +1,5 @@
+name: PhoneixFramework
+author: Lss233
+main: com.lss233.phoenix.nukkit.NukkitMain
+version: "1.0.0"
+api: ["1.0.6"]
