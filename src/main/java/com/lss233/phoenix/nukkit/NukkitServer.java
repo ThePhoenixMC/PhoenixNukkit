@@ -5,9 +5,11 @@ import com.lss233.phoenix.Phoenix;
 import com.lss233.phoenix.channel.MessageListener;
 import com.lss233.phoenix.command.Command;
 import com.lss233.phoenix.entity.living.Player;
+import com.lss233.phoenix.item.enchantment.Enchantment;
 import com.lss233.phoenix.item.inventory.Inventory;
 import com.lss233.phoenix.logging.Logger;
 import com.lss233.phoenix.module.Module;
+import com.lss233.phoenix.nukkit.utils.nukkit.item.enchantment.EnchantmentTypeHelper;
 import com.lss233.phoenix.world.World;
 
 import java.io.File;
@@ -165,6 +167,12 @@ public class NukkitServer implements Phoenix.Server {
             public Inventory registerInventory(Inventory.Builder builder) {
                 // TODO
                 return null;
+            }
+
+            @Override
+            public Enchantment registerEnchantment(Enchantment.Builder builder) {
+                return getTransformer().toPhoenix(cn.nukkit.item.enchantment.Enchantment.get(EnchantmentTypeHelper.getEnchantmentId(builder.getType()))
+                        .setLevel(builder.getLevel()));
             }
         };
     }
