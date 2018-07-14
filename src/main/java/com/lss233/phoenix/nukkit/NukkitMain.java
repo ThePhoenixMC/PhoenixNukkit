@@ -3,6 +3,7 @@ package com.lss233.phoenix.nukkit;
 import cn.nukkit.Server;
 import cn.nukkit.plugin.PluginBase;
 import com.lss233.phoenix.Phoenix;
+import com.lss233.phoenix.nukkit.listener.PlayerListener;
 import com.lss233.phoenix.nukkit.utils.Transform;
 import com.lss233.phoenix.nukkit.utils.TransformUtil;
 /**
@@ -19,26 +20,22 @@ public class NukkitMain extends PluginBase{
         super.onLoad();
         instance = this;
         server = getServer();
-        NukkitServer server = new NukkitServer(getServer());
-        Phoenix.setServer(server);
-        initNukkitSide();
+        Phoenix.setServer(new NukkitServer(getServer()));
     }
 
     private void initNukkitSide() {
-        if (!getDataFolder().exists()) {
-            if(!getDataFolder().mkdirs()){
-                Phoenix.getLogger("Phoenix").warn("Failed to create data folder, Phoenix Framework wont working.");
-            }
-        }
+        getNukkitServer().getPluginManager().registerEvents(new PlayerListener(), this);
     }
 
     @Override
     public void onEnable() {
         super.onEnable();
+        initNukkitSide();
     }
 
     @Override
     public void onDisable() {
         super.onDisable();
     }
+
 }

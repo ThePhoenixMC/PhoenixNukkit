@@ -2,8 +2,7 @@ package com.lss233.phoenix.nukkit.utils.nukkit.entity;
 
 import cn.nukkit.entity.EntityHuman;
 import com.lss233.phoenix.entity.Entity;
-import com.lss233.phoenix.entity.EntityTypes;
-import com.lss233.phoenix.entity.living.Player;
+import com.lss233.phoenix.entity.EntityType;
 import com.lss233.phoenix.world.Location;
 import com.lss233.phoenix.world.World;
 
@@ -12,6 +11,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.Vector;
+
+import static com.lss233.phoenix.nukkit.NukkitMain.getTransformer;
 
 /**
  *
@@ -25,8 +26,8 @@ public interface EntityHumanTransform {
     default Entity toPhoenix(EntityHuman entityHuman){
         return new Entity() {
             @Override
-            public EntityTypes getType() {
-                return EntityTypes.PLAYER;
+            public EntityType getType() {
+                return EntityType.PLAYER;
             }
 
             @Override
@@ -81,7 +82,7 @@ public interface EntityHumanTransform {
 
             @Override
             public boolean teleport(Location location) {
-                return entityHuman.teleport(toNukkit(location));
+                return entityHuman.teleport(getTransformer().toNukkit(location));
             }
 
             @Override
@@ -91,18 +92,18 @@ public interface EntityHumanTransform {
 
             @Override
             public UUID getUniqueId() {
-                return null;
+                return entityHuman.getUniqueId();
             }
 
             @Override
             public Location getLocation() {
-                return null;
+                return getTransformer().toPhoenix(entityHuman.getLocation());
             }
 
             @Override
             public World getWorld() {
-                return null;
+                return getTransformer().toPhoenix(entityHuman.getLevel());
             }
-        }
+        };
     }
 }
