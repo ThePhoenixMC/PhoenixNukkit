@@ -271,6 +271,51 @@ public interface LevelTransform {
             public boolean setBlock(Block block, boolean b) {
                 return false; // TODO
             }
+
+            @Override
+            public Location getSpawnLocation() {
+                return null;
+            }
+
+            @Override
+            public int getSeaLevel() {
+                return 0;
+            }
+
+            @Override
+            public void save() {
+
+            }
+
+            @Override
+            public Chunk getChunk(int i, int i1) {
+                return null;
+            }
+
+            @Override
+            public Chunk getChunk(Location location) {
+                return null;
+            }
+
+            @Override
+            public boolean loadChunk(int i, int i1, boolean b) {
+                return false;
+            }
+
+            @Override
+            public boolean unloadChunk(Chunk chunk) {
+                return false;
+            }
+
+            @Override
+            public void createExplosion(double v, double v1, double v2, float v3) {
+
+            }
+
+            @Override
+            public List<Chunk> getLoadedChunks() {
+                return null;
+            }
         };
     }
 }

@@ -3,6 +3,7 @@ package com.lss233.phoenix.nukkit.utils.nukkit.entity;
 import cn.nukkit.entity.EntityHuman;
 import com.lss233.phoenix.entity.Entity;
 import com.lss233.phoenix.entity.EntityType;
+import com.lss233.phoenix.math.Vector;
 import com.lss233.phoenix.world.Location;
 import com.lss233.phoenix.world.World;
 
@@ -10,7 +11,6 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.Vector;
 
 import static com.lss233.phoenix.nukkit.NukkitMain.getTransformer;
 
