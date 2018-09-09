@@ -9,13 +9,13 @@ import com.lss233.phoenix.item.inventory.Carrier;
 import com.lss233.phoenix.item.inventory.Inventory;
 import com.lss233.phoenix.item.inventory.ItemStack;
 import com.lss233.phoenix.item.inventory.equipment.EquipmentType;
+import com.lss233.phoenix.math.Vector;
 import com.lss233.phoenix.module.Module;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.Vector;
 
 import static com.lss233.phoenix.nukkit.NukkitMain.getNukkitServer;
 import static com.lss233.phoenix.nukkit.NukkitMain.getTransformer;
@@ -34,7 +34,13 @@ public interface PlayerTransform {
         return new Player() {
 
             @Override
+            public boolean hasPermission(String s) {
+                return player.hasPermission(s);
+            }
+
+            @Override
             public CarriedInventory<? extends Carrier> getInventory() {
+                //TODO
                 return null;
             }
 
@@ -171,13 +177,15 @@ public interface PlayerTransform {
 
             @Override
             public Optional<Inventory> openInventory(Inventory inventory) {
-                return Optional.empty(); // TODO Implements later.
+                player.addWindow(getTransformer().toNukkit(inventory));
+                return Optional.of(inventory);
             }
 
             @Override
             public Optional<Inventory> getOpenInventory() {
-
-                return Optional.empty();
+                if(player.getInventory() == null)
+                    return Optional.empty();
+                return Optional.of(getTransformer().toPhoenix(player.getInventory()));
             }
 
             @Override

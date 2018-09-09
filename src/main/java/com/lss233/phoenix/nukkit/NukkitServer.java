@@ -7,6 +7,7 @@ import com.lss233.phoenix.command.Command;
 import com.lss233.phoenix.entity.living.Player;
 import com.lss233.phoenix.item.enchantment.Enchantment;
 import com.lss233.phoenix.item.inventory.Inventory;
+import com.lss233.phoenix.item.inventory.ItemStack;
 import com.lss233.phoenix.logging.Logger;
 import com.lss233.phoenix.module.Module;
 import com.lss233.phoenix.nukkit.utils.nukkit.item.enchantment.EnchantmentTypeHelper;
@@ -103,18 +104,23 @@ public class NukkitServer implements Phoenix.Server {
     public Logger getLogger() {
         return new Logger() {
             @Override
-            public void info(String s) {
-                server.getLogger().info(s);
+            public void info(Object s) {
+                server.getLogger().info(String.valueOf(s));
             }
 
             @Override
-            public void warn(String s) {
-                server.getLogger().warning(s);
+            public void warn(Object s) {
+                server.getLogger().warning(String.valueOf(s));
             }
 
             @Override
-            public void debug(String s) {
-                server.getLogger().debug(s);
+            public void debug(Object s) {
+                server.getLogger().debug(String.valueOf(s));
+            }
+
+            @Override
+            public void severe(Object s) {
+                server.getLogger().critical(String.valueOf(s));
             }
         };
     }
@@ -165,6 +171,12 @@ public class NukkitServer implements Phoenix.Server {
 
             @Override
             public Inventory registerInventory(Inventory.Builder builder) {
+                // TODO
+                return null;
+            }
+
+            @Override
+            public ItemStack registerItemStack(ItemStack.Builder builder) {
                 // TODO
                 return null;
             }
