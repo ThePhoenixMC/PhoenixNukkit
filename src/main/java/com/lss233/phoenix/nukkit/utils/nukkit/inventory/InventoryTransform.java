@@ -1,6 +1,7 @@
 package com.lss233.phoenix.nukkit.utils.nukkit.inventory;
 
 import cn.nukkit.Player;
+import cn.nukkit.inventory.BaseInventory;
 import cn.nukkit.inventory.InventoryHolder;
 import cn.nukkit.item.Item;
 import com.lss233.phoenix.item.inventory.Inventory;
@@ -8,8 +9,11 @@ import com.lss233.phoenix.item.inventory.InventoryType;
 import com.lss233.phoenix.item.inventory.ItemStack;
 import com.lss233.phoenix.item.inventory.ItemType;
 import com.lss233.phoenix.item.inventory.property.InventoryProperty;
+import com.lss233.phoenix.item.inventory.property.InventoryTitle;
+import com.lss233.phoenix.text.Text;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import static com.lss233.phoenix.nukkit.NukkitMain.getTransformer;
@@ -94,20 +98,20 @@ public interface InventoryTransform {
     }
 
     default cn.nukkit.inventory.Inventory toNukkit(Inventory inventory){
-        return new cn.nukkit.inventory.Inventory() {
+        return new BaseInventory(null, getTransformer().toNukkit(inventory.getInventoryType())) {
             @Override
             public int getSize() {
-                return inventory.capacity();
+                return inventory.size();
+            }
+
+            @Override
+            public void setSize(int size) {
+                super.setSize(size);
             }
 
             @Override
             public int getMaxStackSize() {
                 return inventory.getMaxStackSize();
-            }
-
-            @Override
-            public void setMaxStackSize(int i) {
-                inventory.setMaxStackSize(i);
             }
 
             @Override
@@ -121,158 +125,38 @@ public interface InventoryTransform {
             }
 
             @Override
-            public Item getItem(int i) {
-                return null;
-            }
-
-            @Override
-            public boolean setItem(int i, Item item, boolean b) {
-                return false;
-            }
-
-            @Override
-            public Item[] addItem(Item... items) {
-                return new Item[0];
-            }
-
-            @Override
-            public boolean canAddItem(Item item) {
-                return false;
-            }
-
-            @Override
-            public Item[] removeItem(Item... items) {
-                return new Item[0];
+            public Item getItem(int index) {
+                if(inventory.getItem(index).isPresent())
+                    return getTransformer().toNukkit(inventory.getItem(index).get());
+                else
+                    return Item.get(0);
             }
 
             @Override
             public Map<Integer, Item> getContents() {
-                return null;
+                //TODO I'm sure here will be a bug.
+                Map<Integer, Item> contents = new HashMap<>();
+                AtomicInteger integer = new AtomicInteger(0);
+                inventory.iterator().forEachRemaining(itemStack -> contents.put(integer.getAndIncrement(), getTransformer().toNukkit(itemStack)));
+                return contents;
             }
 
             @Override
-            public void setContents(Map<Integer, Item> map) {
-
+            public void setContents(Map<Integer, Item> items) {
+                super.setContents(items);
+                items.forEach((index, item) -> inventory.setItem(index, getTransformer().toPhoenix(item)));
             }
 
             @Override
-            public void sendContents(Player player) {
-
+            public boolean setItem(int index, Item item, boolean send) {
+                inventory.setItem(index, getTransformer().toPhoenix(item));
+                return super.setItem(index, item, send);
             }
 
             @Override
-            public void sendContents(Player... players) {
-
-            }
-
-            @Override
-            public void sendContents(Collection<Player> collection) {
-
-            }
-
-            @Override
-            public void sendSlot(int i, Player player) {
-
-            }
-
-            @Override
-            public void sendSlot(int i, Player... players) {
-
-            }
-
-            @Override
-            public void sendSlot(int i, Collection<Player> collection) {
-
-            }
-
-            @Override
-            public boolean contains(Item item) {
-                return false;
-            }
-
-            @Override
-            public Map<Integer, Item> all(Item item) {
-                return null;
-            }
-
-            @Override
-            public int first(Item item, boolean b) {
-                return 0;
-            }
-
-            @Override
-            public int firstEmpty(Item item) {
-                return 0;
-            }
-
-            @Override
-            public void decreaseCount(int i) {
-
-            }
-
-            @Override
-            public void remove(Item item) {
-
-            }
-
-            @Override
-            public boolean clear(int i, boolean b) {
-                return false;
-            }
-
-            @Override
-            public void clearAll() {
-                inventory.clear();
-            }
-
-            @Override
-            public boolean isFull() {
-                return false;
-            }
-
-            @Override
-            public boolean isEmpty() {
-                return false;
-            }
-
-            @Override
-            public Set<Player> getViewers() {
-                return null;
-            }
-
-            @Override
-            public cn.nukkit.inventory.InventoryType getType() {
-                return null;
-            }
-
-            @Override
-            public InventoryHolder getHolder() {
-                return null;
-            }
-
-            @Override
-            public void onOpen(Player player) {
-
-            }
-
-            @Override
-            public boolean open(Player player) {
-                return false;
-            }
-
-            @Override
-            public void close(Player player) {
-
-            }
-
-            @Override
-            public void onClose(Player player) {
-
-            }
-
-            @Override
-            public void onSlotChange(int i, Item item, boolean b) {
-
+            public void setMaxStackSize(int maxStackSize) {
+                super.setMaxStackSize(maxStackSize);
+                inventory.setMaxStackSize(maxStackSize);
             }
         };
     }
