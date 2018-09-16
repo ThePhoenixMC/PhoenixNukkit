@@ -1,9 +1,17 @@
-# PhoenixNukkit
+<h1 align="center">
+  <br>
+  <img src="https://avatars0.githubusercontent.com/u/35197080?s=400&u=289914ca504d80656a3cdb9646342c76666e2c0b&v=4" alt="Phoenix" width="200"><img src="https://raw.githubusercontent.com/NukkitX/Nukkit/master/.github/images/logo.png" alt="Phoenix" width="200"></a>
+  <br>
+  Phoenix Nukkit
+  <br>
+</h1>
 
 A Nukkit implementation of the Phoenix API.
 
- [![TeamCity](https://img.shields.io/teamcity/http/ci.lss233.com/s/PhoenixFramework_PhoenixNukkit.svg)](https://ci.lss233.com/viewType.html?buildTypeId=PhoenixFramework_PhoenixNukkit&guest=1)
-[![Telegram](https://img.shields.io/badge/chat-Telegram-blue.svg)](https://t.me/PhoenixMCDev)
+ [![Build Status](https://travis-ci.org/ThePhoenixMC/PhoenixNukkit.svg?branch=master)](https://travis-ci.org/ThePhoenixMC/PhoenixNukkit)
+[![Gitter](https://camo.githubusercontent.com/da2edb525cde1455a622c58c0effc3a90b9a181c/68747470733a2f2f6261646765732e6769747465722e696d2f4a6f696e253230436861742e737667)](https://gitter.im/ThePhoenixMC)
+[![GitHub forks](https://img.shields.io/github/forks/ThePhoenixMC/PhoenixNukkit.svg?style=flat-square&label=Fork)](https://github.com/ThePhoenixMC/PhoenixAPI/fork)
+![GitHub stars](https://img.shields.io/github/stars/ThePhoenixMC/PhoenixNukkit.svg?style=flat-square&label=Stars)
 [![LICENSE](https://img.shields.io/github/license/ThePhoenixMC/PhoenixNukkit.svg)](LICENSE)
 
 
@@ -11,6 +19,7 @@ A Nukkit implementation of the Phoenix API.
 # Requirements
 
 -  Java 1.8 or higher
+-  Maven
 
 # Cloning
 The following steps will ensure your project is cloned properly.
@@ -33,11 +42,11 @@ git submodule update --recursive
 ```
 ./mvnw clean install
 ```
-You can find the compiled JAR files in `PhoenixForNukkit/target` directory.
+You can find the compiled JAR files in `PhoenixNukkit/target` directory.
 
 # Running
 
-After building the project, drop `PhoenixForNukkit-x.x.x-x-x.x-x.jar' to your server's plugin directory, and then restart your server.
+After building the project, drop `PhoenixNukkit-x.x.x-x-x.x-x.jar' to your server's plugin directory, and then restart your server.
 
 -  You can put your Phoenix Module to 'modules' directory.
 - The configuration files of the modules is under 'config' directory.
