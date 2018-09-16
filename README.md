@@ -8,6 +8,7 @@
 
 A Nukkit implementation of the Phoenix API.
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f29028f92726402cad6e579d1594d903)](https://app.codacy.com/app/PhoenixMC/PhoenixNukkit?utm_source=github.com&utm_medium=referral&utm_content=ThePhoenixMC/PhoenixNukkit&utm_campaign=Badge_Grade_Dashboard)
  [![Build Status](https://travis-ci.org/ThePhoenixMC/PhoenixNukkit.svg?branch=master)](https://travis-ci.org/ThePhoenixMC/PhoenixNukkit)
 [![Gitter](https://camo.githubusercontent.com/da2edb525cde1455a622c58c0effc3a90b9a181c/68747470733a2f2f6261646765732e6769747465722e696d2f4a6f696e253230436861742e737667)](https://gitter.im/ThePhoenixMC)
 [![GitHub forks](https://img.shields.io/github/forks/ThePhoenixMC/PhoenixNukkit.svg?style=flat-square&label=Fork)](https://github.com/ThePhoenixMC/PhoenixAPI/fork)
