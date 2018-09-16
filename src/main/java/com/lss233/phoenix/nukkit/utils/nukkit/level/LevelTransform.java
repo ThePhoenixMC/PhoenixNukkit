@@ -3,6 +3,7 @@ package com.lss233.phoenix.nukkit.utils.nukkit.level;
 import cn.nukkit.Server;
 import cn.nukkit.level.GameRule;
 import cn.nukkit.level.Level;
+import cn.nukkit.math.SimpleAxisAlignedBB;
 import cn.nukkit.network.protocol.SetDifficultyPacket;
 import com.lss233.phoenix.block.Block;
 import com.lss233.phoenix.entity.Entity;
@@ -11,10 +12,8 @@ import com.lss233.phoenix.entity.living.Player;
 import com.lss233.phoenix.math.Vector;
 import com.lss233.phoenix.world.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.lss233.phoenix.nukkit.NukkitMain.getTransformer;
 
@@ -31,16 +30,30 @@ public interface LevelTransform {
 
             @Override
             public List<Entity> getNearbyEntities(Vector vector, double v) {
-                return null;
+                return Arrays.stream(level.getNearbyEntities(new SimpleAxisAlignedBB(
+                        vector.getX() - v,
+                        vector.getY() - v,
+                        vector.getZ() - v,
+                        vector.getX() + v,
+                        vector.getY() + v,
+                        vector.getZ() + v)))
+                        .map(entity -> getTransformer().toPhoenix(entity))
+                        .collect(Collectors.toList());
             }
 
             @Override
             public List<Entity> getEntities() {
-                return null;
+                return Arrays.stream(level.getEntities())
+                        .map(entity -> getTransformer().toPhoenix(entity))
+                        .collect(Collectors.toList());
             }
 
             @Override
             public Optional<Entity> getEntity(UUID uuid) {
+                for (Entity entity : getEntities()) {
+                    if(entity.getUniqueId().equals(uuid))
+                        return Optional.of(entity);
+                }
                 return Optional.empty();
             }
 
@@ -183,9 +196,9 @@ public interface LevelTransform {
 
                     @Override
                     public Location getSpawnLocation() {
-                        return getTransformer().toPhoenix(new cn.nukkit.level.Location(getSpawnLocation().getX(),
-                                getSpawnLocation().getY(),
-                                getSpawnLocation().getZ(),
+                        return getTransformer().toPhoenix(new cn.nukkit.level.Location(level.getSpawnLocation().getX(),
+                                level.getSpawnLocation().getY(),
+                                level.getSpawnLocation().getZ(),
                                 level));
                     }
 
@@ -274,7 +287,7 @@ public interface LevelTransform {
 
             @Override
             public Location getSpawnLocation() {
-                return null;
+                return new Location(this, level.getSpawnLocation().getX(), level.getSpawnLocation().getY(), level.getSpawnLocation().getZ());
             }
 
             @Override
@@ -284,38 +297,45 @@ public interface LevelTransform {
 
             @Override
             public void save() {
-
+                level.save();
             }
 
             @Override
-            public Chunk getChunk(int i, int i1) {
-                return null;
+            public Chunk getChunk(int x, int z) {
+                return getTransformer().toPhoenix(level.getChunk(x, z), this);
             }
 
             @Override
             public Chunk getChunk(Location location) {
-                return null;
+                return getTransformer().toPhoenix(
+                        level.getChunk(location.getBlockX() / 16, location.getBlockZ() / 16), this);
             }
 
             @Override
             public boolean loadChunk(int i, int i1, boolean b) {
-                return false;
+                return level.loadChunk(i, i1, b);
             }
 
             @Override
             public boolean unloadChunk(Chunk chunk) {
-                return false;
+                return level.unloadChunk(chunk.getX(), chunk.getZ());
             }
 
             @Override
             public void createExplosion(double v, double v1, double v2, float v3) {
-
+                //TODO
             }
 
             @Override
             public List<Chunk> getLoadedChunks() {
-                return null;
+                return level.getChunks().values().stream()
+                        .map(chunk -> getTransformer().toPhoenix(chunk, this))
+                        .collect(Collectors.toList());
             }
         };
+    }
+
+    default Level toNukkit(World world){
+        return Server.getInstance().getLevelByName(world.getName());
     }
 }
